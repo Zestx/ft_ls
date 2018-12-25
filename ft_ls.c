@@ -25,7 +25,10 @@ int	ls(char *dirpath)
 
 	dir = opendir(dirpath);
 	if (!dir)
+	{
+		putstr("error: can't open directory.\n");
 		return (-1);
+	}
 	while ((d = readdir(dir))) {
 		if (d->d_name[0] != '.') {
 			putstr(d->d_name);
@@ -39,9 +42,11 @@ int	ls(char *dirpath)
 int	main(int argc, char **argv)
 {
 	if (argc == 1)
-		ls(".");
+		if (ls("."))
+			return (-1);
 	else
 		while (--argc)
-			ls(*++argv);
+			if (ls(*++argv))
+				return (-1);
 	return (0);
 }
