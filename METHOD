@@ -1,0 +1,27 @@
+****************ft_ls****************
+**IMPLEMENTATION OF THE LS COMMAND.**
+*************************************
+
+
+I. Get and parse the arguments.
+
+	1. Check for options:
+		a. Options must be set before the directories (if there's any specified):
+			<ft_ls [-aBcD -Oxr] [directory]>
+		   So there maybe multiple arguments containing options, but they must be the first one after
+		   the command itself.
+		b. Store all the options into a table.
+	
+	2. The other arguments should be the directories to list.
+
+II. List the content of the directories.
+	
+	1. Is there any directories specified in the call to the program?
+	IF NOT:
+		a. Use "." (current working directory) as the directory to list.
+	IF YES:
+		a. Send them one by one to the actual listing part of the program.
+		b. Also send the options so the listing is done accordingly.
+		c. Check for the validity of the directories / pathes while opening them..
+		d. Actually display their content, recursively if -R is set.
+	2. Exit program.

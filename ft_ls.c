@@ -116,15 +116,15 @@ char	*parse_args(int argc, char **argv)
 
 int		main(int argc, char **argv)
 {
+	char *options;
+
 	//if no arguments, list current working directory (cwd) content.
 	if (argc == 1)
-	{
 		if (list(".", 0))
 			return (-1);
-	}
 	//else list all directories specified in arguments.
 	else
-		parse_args(argc, argv);
+		options = parse_args(argc, argv);
 	//{
 	//	while (--argc)
 	//		if (list(*++argv, 0))
