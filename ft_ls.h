@@ -17,8 +17,11 @@
 # include <string.h>
 # include <dirent.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 
 //prototypes
-int	fname(char *dir);
+char	*subdir_path(char *current_path, char *subdir);
+int		list(char *dirpath, int indent);
+char	*parse_args(int argc, char **argv);
 
 #endif

@@ -4,14 +4,9 @@
 /* 		q.bckrt@gmail.com	      */
 /**********************************************/
 
-#include "dirent.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "ft_ls.h"
 
-//this function is basically strcat and strdup combined. it's used to send the nez path to list() if called recursively.
-//(not necessary??)
+//This function is basically strcat and strdup combined. it's used to send the nez path to list() if called recursively.
 char	*subdir_path(char *current_path, char *subdir)
 {
 	char	*full_path;
@@ -42,7 +37,7 @@ char	*subdir_path(char *current_path, char *subdir)
 	return (full_path);
 }
 
-//core function, display recursively the entries of a directory.
+//Core function, display recursively the entries of a directory.
 int		list(char *dirpath, int indent)
 {
 	struct dirent	*entry;
@@ -88,6 +83,7 @@ int		list(char *dirpath, int indent)
 	return (0);
 }
 
+//This function get all the options in a table.
 char	*parse_args(int argc, char **argv)
 {
 	int		i;
