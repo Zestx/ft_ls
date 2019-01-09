@@ -8,9 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-#define CMAG "\x1B[35m"
-#define RESET "\x1B[0m"
+#include "ft_ls.h"
 
 //this function is basically strcat and strdup combined. it's used to send the nez path to list() if called recursively.
 //(not necessary??)
@@ -43,7 +41,6 @@ char	*subdir_path(char *current_path, char *subdir)
 	full_path[i + j] = '\0';
 	return (full_path);
 }
-
 
 //core function, display recursively the entries of a directory.
 int		list(char *dirpath, int indent)
@@ -91,6 +88,36 @@ int		list(char *dirpath, int indent)
 	return (0);
 }
 
+char	*parse_args(int argc, char **argv)
+{
+	int		i;
+	int		j;
+	int		opt_count; //will contain all options set by the user.
+	char	*opt_table; //will contain the number of options set by the user.
+
+	//opt_table will contain all the options set by the user. I allocate 41 bytes, enough for all possible ls options.
+	if ((opt_table = malloc(41)) == NULL)
+	{
+		printf("allocation error.\n");
+		return (NULL);
+	}
+	i = 1;
+	opt_count = 0;
+	while (i < argc && argv[i][0] == '-') //this loop will read through all the arguments as long as they're options ('-x')
+	{
+		j = 1;
+		while (argv[i][j] != '\0') //stocking all the options on this argument into opt_table and updating opt_count.
+		{
+			opt_table[opt_count] = argv[i][j];
+			opt_table[opt_count + 1] = '\0';
+			opt_count++;
+			j++;
+		}
+		i++;
+	}
+	return (opt_table);
+}
+
 int		main(int argc, char **argv)
 {
 	//if no arguments, list current working directory (cwd) content.
@@ -100,11 +127,12 @@ int		main(int argc, char **argv)
 			return (-1);
 	}
 	//else list all directories specified in arguments.
-	else 
-	{
-		while (--argc)
-			if (list(*++argv, 0))
-				return (-1);
-	}
+	else
+		parse_args(argc, argv);
+	//{
+	//	while (--argc)
+	//		if (list(*++argv, 0))
+	//			return (-1);
+	//}
 	return (0);
 }
