@@ -104,13 +104,17 @@ char	*parse_args(int argc, char **argv)
 		j = 1;
 		while (argv[i][j] != '\0') //stocking all the options on this argument into opt_table and updating opt_count.
 		{
-			opt_table[opt_count] = argv[i][j];
-			opt_table[opt_count + 1] = '\0';
-			opt_count++;
+			if (!strchr(opt_table, argv[i][j]))
+			{
+				opt_table[opt_count] = argv[i][j];
+				opt_table[opt_count + 1] = '\0';
+				opt_count++;
+			}
 			j++;
 		}
 		i++;
 	}
+	printf("%s\n", opt_table);
 	return (opt_table);
 }
 
@@ -120,15 +124,17 @@ int		main(int argc, char **argv)
 
 	//if no arguments, list current working directory (cwd) content.
 	if (argc == 1)
+	{
 		if (list(".", 0))
 			return (-1);
+	}
 	//else list all directories specified in arguments.
 	else
+	{
 		options = parse_args(argc, argv);
-	//{
-	//	while (--argc)
-	//		if (list(*++argv, 0))
-	//			return (-1);
-	//}
+		//	while (--argc)
+		//		if (list(*++argv, 0))
+		//			return (-1);
+	}
 	return (0);
 }
