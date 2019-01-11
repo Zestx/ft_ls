@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-int		ls(char *dirpath)
+int	list_main(char *dirpath)
 {
 	struct dirent	*entry;
 	struct stat		filestats;
@@ -22,19 +22,20 @@ int		ls(char *dirpath)
 	dir = opendir(dirpath);
 	while (dir && (entry = readdir(dir)))
 	{
-		stat(entry->d_name, &filestats);
-		mode = get_stat(filestats.st_mode);
-		printf("%s	", mode);
-		printf("%s\n", entry->d_name);
+		if (entry->d_name[0] != '.')
+		{
+			display_stats(entry->d_name);
+			putchar('\n');
+		}
 	}
 	return (0);
 }
 
-int		main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	if (argc == 1)
-		ls(".");
+		list_main(".");
 	else
-		ls(argv[1]);
+		list_main(argv[1]);
 	return (0);
 }
