@@ -17,19 +17,14 @@ int		ls(char *dirpath)
 	struct dirent	*entry;
 	struct stat		filestats;
 	DIR				*dir;
+	char		*mode;
 
 	dir = opendir(dirpath);
 	while (dir && (entry = readdir(dir)))
 	{
 		stat(entry->d_name, &filestats);
-		if (S_ISDIR(filestats.st_mode))
-		{
-			printf("d	");
-		}
-		else
-		{
-			printf("-	");
-		}
+		mode = get_stat(filestats.st_mode);
+		printf("%s	", mode);
 		printf("%s\n", entry->d_name);
 	}
 	return (0);

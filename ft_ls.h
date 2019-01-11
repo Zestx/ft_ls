@@ -24,4 +24,8 @@ char	*subdir_path(char *current_path, char *subdir);
 int		list(char *dirpath, int indent);
 char	*parse_args(int argc, char **argv);
 
+char	*get_stat(mode_t file_mode);
+void	get_type(char *buffer, mode_t file_mode);
+void	get_perm(char *buffer, mode_t file_mode);
+
 #endif
