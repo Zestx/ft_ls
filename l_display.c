@@ -27,6 +27,7 @@ int	display_stats(char *filename)
 	putstr(" ");
 	putstr(get_grpname(filestats.st_gid));
 	putstr(" ");
+	printf("%d ", filestats.st_size);
 	putstr(filename);
 	return (0);
 }
