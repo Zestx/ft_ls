@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:36:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 07:57:26 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/15 09:48:25 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct	s_entry
 	struct stat		filestat;
 }				t_entry;
 
-int				list(char *dirpath, char *options);
+int				list(char *dirpath, char *options, int indent);
 void			read_create_list(t_list **entry_list, DIR *dir, char *options);
 char			*parse_args(int argc, char **argv);
 int				display_entry(char *fname, struct stat *fstat, int l_nmode);

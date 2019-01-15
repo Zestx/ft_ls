@@ -1,0 +1,17 @@
+ ======================
+ |~ft_ls : To-Do list~|
+ ======================
+
+ SORTING
+ - Choose the best most suited sorting algorithms and implement them:
+ 	- alphabetical sorting, uppercase first (default).
+	- last modification time sorting (-t)
+	- reverse the sorting, can be used in combination with -t.  (-r)
+ ERROR MANAGEMENT
+ - Check if all error cases are managed properly and nothing is neglected.
+ - In case of error:
+ 	- Display an informative error message.
+	- Make sure every allocated memory is freed properly.
+	- Leave the program safe and clean.
+ RECURSION
+ - Implement the recursive listing (-R).

@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 06:36:57 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 08:07:07 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/15 09:57:12 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,47 @@ void	read_create_list(t_list **entry_list, DIR *dir, char *options)
 	}
 }
 
-int		list(char *dirpath, char *options)
+void	recursive_wpr(t_entry *entry, char *path, char *options, int indent)
+{
+	mode_t	mode_tmp;
+	char	*subpath;
+
+	mode_tmp = (entry->filestat).st_mode;
+	printf("checkin up %s...\n", entry->filename);
+	if (S_ISDIR(mode_tmp))
+	{
+		printf("ISDIR\n");
+		subpath = subdir_path(path, entry->filename);
+		list(subpath, options, indent + 1);
+	}
+}
+
+int		list(char *dirpath, char *options, int indent)
 {
 	DIR				*dir;
 	t_list			*entries_list;
 	t_list			*entry_ptr;
+	int				i;
 
+	printf("CWD: %s\n", dirpath);
 	entries_list = ft_lstnew(NULL, 0);
 	if ((dir = opendir(dirpath)) == NULL)
 		return (-1);
-	ft_putchar('\n');
 	read_create_list(&entries_list, dir, options);
 	entry_ptr = entries_list;
 	while (entry_ptr->content != NULL)
 	{
+		i = 0;
+		while (i < indent)
+		{
+			ft_putstr("---");
+			i++;
+		}
 		display_wpr(entry_ptr->content, options);
+		recursive_wpr(entry_ptr->content, dirpath, options, indent);
 		entry_ptr = entry_ptr->next;
 	}
+	ft_putchar('\n');
 	free_list(&entries_list);
 	closedir(dir);
 	return (0);
@@ -101,7 +125,7 @@ int		main(int argc, char **argv)
 		if (check_opts("Ralst", options))
 			return (-1);
 	}
-	if (list(".", options))
+	if (list(".", options, 0))
 		return (-1);
 	return (0);
 }
