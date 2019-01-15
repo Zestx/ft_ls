@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 19:45:31 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 07:55:52 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/15 11:00:09 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*subdir_path(char *current_path, char *subdir)
 	full_path[i + j] = '\0';
 	return (full_path);
 }
-
 t_entry	*newnode(char *filename)
 {
 	t_entry *new_node;

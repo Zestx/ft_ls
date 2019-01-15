@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 06:36:57 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 09:57:12 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/15 11:27:42 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@ void	read_create_list(t_list **entry_list, DIR *dir, char *options)
 
 void	recursive_wpr(t_entry *entry, char *path, char *options, int indent)
 {
-	mode_t	mode_tmp;
 	char	*subpath;
+	char *buffer;
+	struct stat temp;
 
-	mode_tmp = (entry->filestat).st_mode;
-	printf("checkin up %s...\n", entry->filename);
-	if (S_ISDIR(mode_tmp))
+	buffer = malloc(1);
+	get_type(buffer, entry->filestat.st_mode);
+	stat(entry->filename, &temp);
+	if (S_ISDIR(temp.st_mode))
 	{
-		printf("ISDIR\n");
+		printf("is dir\n");
 		subpath = subdir_path(path, entry->filename);
 		list(subpath, options, indent + 1);
 	}
@@ -125,7 +127,7 @@ int		main(int argc, char **argv)
 		if (check_opts("Ralst", options))
 			return (-1);
 	}
-	if (list(".", options, 0))
+	if (list("testdir", options, 0))
 		return (-1);
 	return (0);
 }
