@@ -14,21 +14,25 @@ void	putstr(char *str)
 	}	
 }
 
-int	display_stats(char *filename)
+int	display_stats(char *fname, struct stat *fstats, int l_mode)
 {
-	struct stat	filestats;
-
-	stat(filename, &filestats);
-	putstr(get_mode(filestats.st_mode));
-	putstr(" ");
-	printf("%d", filestats.st_nlink); //use ft_putnbr;
-	putstr(" ");
-	putstr(get_usrname(filestats.st_uid));
-	putstr(" ");
-	putstr(get_grpname(filestats.st_gid));
-	putstr(" ");
-	printf("%d ", filestats.st_size);
-	putstr(filename);
+	if (l_mode == 1)
+	{
+		ft_putstr(get_mode(fstats->st_mode));
+		ft_putstr(" ");
+		printf("%hu", fstats->st_nlink); //use ft_putnbr;
+		ft_putstr(" ");
+		ft_putstr(get_usrname(fstats->st_uid));
+		ft_putstr(" ");
+		ft_putstr(get_grpname(fstats->st_gid));
+		ft_putstr(" ");
+		printf("%lld ", fstats->st_size); //use ft_putnbr;
+		printf("%s\n", fname);
+	}
+	else if (l_mode == 0)
+		printf("%s\n", fname);
+	else
+		return (-1);
 	return (0);
 }
 
