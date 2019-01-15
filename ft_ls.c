@@ -6,15 +6,26 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 06:36:57 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 07:00:08 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/15 08:07:07 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+void	read_create_list(t_list **entry_list, DIR *dir, char *options)
+{
+	struct dirent *entry;
+
+	while ((entry = readdir(dir)) != NULL)
+	{
+		if (entry->d_name[0] != '.' || (options && ft_strchr(options, 'a')))
+			ft_lstadd(entry_list,
+					ft_lstnew(newnode(entry->d_name), sizeof(t_entry)));
+	}
+}
+
 int		list(char *dirpath, char *options)
 {
-	struct dirent	*entry;
 	DIR				*dir;
 	t_list			*entries_list;
 	t_list			*entry_ptr;
@@ -22,18 +33,15 @@ int		list(char *dirpath, char *options)
 	entries_list = ft_lstnew(NULL, 0);
 	if ((dir = opendir(dirpath)) == NULL)
 		return (-1);
-	while ((entry = readdir(dir)) != NULL)
-	{
-		if (entry->d_name[0] != '.' || (options && ft_strchr(options, 'a')))
-			ft_lstadd(&entries_list,
-					ft_lstnew(newnode(entry->d_name), sizeof(t_entry)));
-	}
+	ft_putchar('\n');
+	read_create_list(&entries_list, dir, options);
 	entry_ptr = entries_list;
 	while (entry_ptr->content != NULL)
 	{
 		display_wpr(entry_ptr->content, options);
 		entry_ptr = entry_ptr->next;
 	}
+	free_list(&entries_list);
 	closedir(dir);
 	return (0);
 }

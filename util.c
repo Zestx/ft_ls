@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 19:45:31 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 07:02:18 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/15 07:55:52 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,21 @@ t_entry	*newnode(char *filename)
 		return (NULL);
 	stat(filename, &(new_node->filestat));
 	new_node->filename = filename;
-	new_node->next = NULL;
 	return (new_node);
+}
+
+void	free_list(t_list **entries)
+{
+	t_list *n_node;
+
+	if (!entries || !*entries)
+		return ;
+	while (*entries)
+	{
+		n_node = (*entries)->next;
+		free((*entries)->content);
+		free(*entries);
+		*entries = n_node;
+	}
+	*entries = NULL;
 }

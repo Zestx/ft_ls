@@ -15,4 +15,4 @@ clean:
 fclean: clean
 	rm -rf ft_ls
 
-re: fclean ft_ls
+re: fclean all
