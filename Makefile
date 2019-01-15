@@ -3,7 +3,7 @@ CFLAGS= -Wall -Wextra -Werror --pedantic
 
 all: ft_ls clean
 
-ft_ls: ft_ls.o l_display.o util.o
+ft_ls: ft_ls.o getstat.o display.o util.o
 	$(CC) $(CFLAGS) $^ -I. libft.a -o ft_ls
 
 %.o: %.c

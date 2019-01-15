@@ -1,47 +1,23 @@
-/* This file contain the functions used for long display (-l option) */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getstat.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/01/15 07:00:43 by qbackaer          #+#    #+#             */
+/*   Updated: 2019/01/15 07:01:26 by qbackaer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	putstr(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		putchar(str[i]);
-		i++;
-	}	
-}
-
-int	display_stats(char *fname, struct stat *fstats, int l_mode)
-{
-	if (l_mode == 1)
-	{
-		ft_putstr(get_mode(fstats->st_mode));
-		ft_putstr(" ");
-		printf("%hu", fstats->st_nlink); //use ft_putnbr;
-		ft_putstr(" ");
-		ft_putstr(get_usrname(fstats->st_uid));
-		ft_putstr(" ");
-		ft_putstr(get_grpname(fstats->st_gid));
-		ft_putstr(" ");
-		printf("%lld ", fstats->st_size); //use ft_putnbr;
-		printf("%s\n", fname);
-	}
-	else if (l_mode == 0)
-		printf("%s\n", fname);
-	else
-		return (-1);
-	return (0);
-}
-
 char	*get_usrname(uid_t user_id)
 {
-	struct	passwd *usr_stats;
+	struct passwd *usr_stats;
 
 	usr_stats = getpwuid(user_id);
-	return(usr_stats->pw_name);
+	return (usr_stats->pw_name);
 }
 
 char	*get_grpname(gid_t group_id)
@@ -54,8 +30,8 @@ char	*get_grpname(gid_t group_id)
 
 char	*get_mode(mode_t file_mode)
 {
-	int i;
-	char *mode_str;
+	int		i;
+	char	*mode_str;
 
 	mode_str = malloc(11);
 	if (mode_str == NULL)

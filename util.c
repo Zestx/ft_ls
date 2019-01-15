@@ -6,15 +6,12 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 19:45:31 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 03:38:01 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/15 07:02:18 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*This file contains utilitary functions for ft_ls.*/
-
 #include "ft_ls.h"
 
-//This function is simply put strcat and strdub combined. It creates a subdirectory path.
 char	*subdir_path(char *current_path, char *subdir)
 {
 	char	*full_path;
@@ -41,24 +38,15 @@ char	*subdir_path(char *current_path, char *subdir)
 	return (full_path);
 }
 
-char	**add_entry(char **old_table, char *new_entry, int size)
+t_entry	*newnode(char *filename)
 {
-	char **new_table;
-	int i;
+	t_entry *new_node;
 
-	if (!(new_table = malloc(sizeof(new_table) * size + 2)))
+	new_node = (t_entry*)malloc(sizeof(t_entry));
+	if (!new_node)
 		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		new_table[i] = strdup(old_table[i]);
-		free(old_table[i]);
-		i++;
-	}
-	new_table[i] = strdup(new_entry);
-	free(old_table[i]);
-	free(old_table);
-	new_table[i + 1] = "\0";
-
-	return (new_table);
+	stat(filename, &(new_node->filestat));
+	new_node->filename = filename;
+	new_node->next = NULL;
+	return (new_node);
 }
