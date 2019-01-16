@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 21:36:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 09:48:25 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/16 17:03:51 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ typedef struct	s_entry
 {
 	char			*filename;
 	struct stat		filestat;
+	struct s_entry	*next;
 }				t_entry;
 
-int				list(char *dirpath, char *options, int indent);
-void			read_create_list(t_list **entry_list, DIR *dir, char *options);
+int				list(char *dirpath, char *options);
+void			read_create_list(t_list **entry_list, DIR *dir, char *path, char *options);
 char			*parse_args(int argc, char **argv);
 int				display_entry(char *fname, struct stat *fstat, int l_nmode);
 char			*get_mode(mode_t file_mode);
@@ -42,8 +43,8 @@ char			*get_grpname(gid_t groupd_id);
 void			get_type(char *buffer, mode_t file_mode);
 void			get_perm(char *buffer, mode_t file_mode);
 void			display_wpr(t_entry *entry, char *options);
-t_entry			*newnode(char *filename);
+t_entry			*newnode(char *path, char *filename);
 char			*subdir_path(char *current_path, char *subdir);
-void			free_list(t_list **entries);
+void			free_list(t_list *entries);
 
 #endif

@@ -6,72 +6,67 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 06:36:57 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 11:27:42 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/16 17:35:44 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	read_create_list(t_list **entry_list, DIR *dir, char *options)
+//this function reads a directory stream and creates a linked list containing all its entries,
+//and their associated stats.
+void	read_create_list(t_list **entry_list, DIR *dir, char *path, char *options)
 {
-	struct dirent *entry;
+	struct dirent 	*entry;
+	char			*new_path;
 
 	while ((entry = readdir(dir)) != NULL)
 	{
-		if (entry->d_name[0] != '.' || (options && ft_strchr(options, 'a')))
+		new_path = subdir_path(path, entry->d_name);
+		if (entry->d_name[0] != '.' || (options && ft_strchr(options, 'a'))) 
 			ft_lstadd(entry_list,
-					ft_lstnew(newnode(entry->d_name), sizeof(t_entry)));
+					ft_lstnew(newnode(new_path, entry->d_name), sizeof(t_entry)));
 	}
 }
-
-void	recursive_wpr(t_entry *entry, char *path, char *options, int indent)
+//test if the "current" entry is a directory and if so, call list() (recursively).
+void	recursive_wpr(t_entry *entry, char *path, char *options)
 {
-	char	*subpath;
-	char *buffer;
-	struct stat temp;
+	char		*subpath;
 
-	buffer = malloc(1);
-	get_type(buffer, entry->filestat.st_mode);
-	stat(entry->filename, &temp);
-	if (S_ISDIR(temp.st_mode))
+	if (S_ISDIR(entry->filestat.st_mode))
 	{
-		printf("is dir\n");
+		ft_putchar('\n');
 		subpath = subdir_path(path, entry->filename);
-		list(subpath, options, indent + 1);
+		list(subpath, options);
 	}
 }
 
-int		list(char *dirpath, char *options, int indent)
+//core function. open a directory, then use read_create_list() and display_wpr() to display it's content.
+//if the -R option is set, list() will use recursive_wpr() to call itself recursively on the subdirectory.
+int		list(char *dirpath, char *options)
 {
 	DIR				*dir;
 	t_list			*entries_list;
 	t_list			*entry_ptr;
-	int				i;
 
-	printf("CWD: %s\n", dirpath);
-	entries_list = ft_lstnew(NULL, 0);
+	printf("%s :\n", dirpath);
+	entries_list = NULL;
 	if ((dir = opendir(dirpath)) == NULL)
 		return (-1);
-	read_create_list(&entries_list, dir, options);
+	read_create_list(&entries_list, dir, dirpath, options);
 	entry_ptr = entries_list;
 	while (entry_ptr->content != NULL)
 	{
-		i = 0;
-		while (i < indent)
-		{
-			ft_putstr("---");
-			i++;
-		}
 		display_wpr(entry_ptr->content, options);
-		recursive_wpr(entry_ptr->content, dirpath, options, indent);
+		if (options && strchr(options, 'R'))
+			recursive_wpr(entry_ptr->content, dirpath, options);
 		entry_ptr = entry_ptr->next;
 	}
-	ft_putchar('\n');
-	free_list(&entries_list);
+	free_list(entries_list);
 	closedir(dir);
 	return (0);
 }
 
+//get all the options.
 char	*parse_args(int argc, char **argv)
 {
 	int		i;
@@ -101,6 +96,7 @@ char	*parse_args(int argc, char **argv)
 	return (opt_table);
 }
 
+//check if the options sets are valid.
 int		check_opts(char *valid_opt, char *opt_table)
 {
 	while (*opt_table != '\0')
@@ -115,6 +111,7 @@ int		check_opts(char *valid_opt, char *opt_table)
 	return (0);
 }
 
+//MAIN. The program only supports options as arguments yet, no directories.
 int		main(int argc, char **argv)
 {
 	char	*options;
@@ -127,7 +124,7 @@ int		main(int argc, char **argv)
 		if (check_opts("Ralst", options))
 			return (-1);
 	}
-	if (list("testdir", options, 0))
+	if (list(".", options))
 		return (-1);
 	return (0);
 }

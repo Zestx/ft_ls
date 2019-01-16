@@ -6,12 +6,16 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 19:45:31 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/15 11:00:09 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/16 17:42:07 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+//return a new path from a current path and a subdirectory:
+//ex:
+//subdir_path("./directory", "subdirectory");
+//will return "./directory/subdirectory"
 char	*subdir_path(char *current_path, char *subdir)
 {
 	char	*full_path;
@@ -37,30 +41,33 @@ char	*subdir_path(char *current_path, char *subdir)
 	full_path[i + j] = '\0';
 	return (full_path);
 }
-t_entry	*newnode(char *filename)
+
+//creates and fill a new t_entry struct.
+t_entry	*newnode(char *path, char *filename)
 {
 	t_entry *new_node;
 
 	new_node = (t_entry*)malloc(sizeof(t_entry));
 	if (!new_node)
 		return (NULL);
-	stat(filename, &(new_node->filestat));
+	stat(path, &(new_node->filestat));
 	new_node->filename = filename;
 	return (new_node);
 }
 
-void	free_list(t_list **entries)
+//free linked lists.
+void	free_list(t_list *entries)
 {
 	t_list *n_node;
 
-	if (!entries || !*entries)
+	if (!entries)
 		return ;
-	while (*entries)
+	while (entries)
 	{
-		n_node = (*entries)->next;
-		free((*entries)->content);
-		free(*entries);
-		*entries = n_node;
+		n_node = entries->next;
+		free(entries->content);
+		free(entries);
+		entries = n_node;
 	}
-	*entries = NULL;
+	entries = NULL;
 }

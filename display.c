@@ -11,6 +11,7 @@
 
 #include "ft_ls.h"
 
+//wrapper for display_entry. Rendered useless.
 void	display_wpr(t_entry *entry, char *options)
 {
 	if (options && ft_strchr(options, 'l'))
@@ -19,6 +20,7 @@ void	display_wpr(t_entry *entry, char *options)
 		display_entry(entry->filename, &(entry->filestat), 0);
 }
 
+//display entries, and their stats if -l is set. Time stats displaying yet to do.
 int		display_entry(char *fname, struct stat *fstats, int l_mode)
 {
 	if (l_mode == 1)

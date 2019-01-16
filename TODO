@@ -3,15 +3,16 @@
  ======================
 
  SORTING
- - Choose the best most suited sorting algorithms and implement them:
+ - Choose the most suited sorting algorithms and implement them:
  	- alphabetical sorting, uppercase first (default).
 	- last modification time sorting (-t)
 	- reverse the sorting, can be used in combination with -t.  (-r)
  ERROR MANAGEMENT
- - Check if all error cases are managed properly and nothing is neglected.
+ - Implement all tests and error checks.
  - In case of error:
  	- Display an informative error message.
 	- Make sure every allocated memory is freed properly.
 	- Leave the program safe and clean.
- RECURSION
- - Implement the recursive listing (-R).
+ 
+ BUGS:
+ - Weird segfault (systematic).
