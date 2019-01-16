@@ -13,6 +13,3 @@
  	- Display an informative error message.
 	- Make sure every allocated memory is freed properly.
 	- Leave the program safe and clean.
- 
- BUGS:
- - Weird segfault (systematic).
