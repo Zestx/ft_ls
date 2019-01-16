@@ -30,7 +30,6 @@ typedef struct	s_entry
 {
 	char			*filename;
 	struct stat		filestat;
-	struct s_entry	*next;
 }				t_entry;
 
 int				list(char *dirpath, char *options);

@@ -27,13 +27,13 @@ int		display_entry(char *fname, struct stat *fstats, int l_mode)
 	{
 		ft_putstr(get_mode(fstats->st_mode));
 		ft_putstr(" ");
-		printf("%hu", fstats->st_nlink);
+		printf("%lu", fstats->st_nlink);
 		ft_putstr(" ");
 		ft_putstr(get_usrname(fstats->st_uid));
 		ft_putstr(" ");
 		ft_putstr(get_grpname(fstats->st_gid));
 		ft_putstr(" ");
-		printf("%lld ", fstats->st_size);
+		printf("%ld ", fstats->st_size);
 		printf("%s\n", fname);
 	}
 	else if (l_mode == 0)

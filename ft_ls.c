@@ -25,6 +25,7 @@ void	read_create_list(t_list **entry_list, DIR *dir, char *path, char *options)
 		if (entry->d_name[0] != '.' || (options && ft_strchr(options, 'a'))) 
 			ft_lstadd(entry_list,
 					ft_lstnew(newnode(new_path, entry->d_name), sizeof(t_entry)));
+		free(new_path);
 	}
 }
 //test if the "current" entry is a directory and if so, call list() (recursively).
@@ -37,6 +38,7 @@ void	recursive_wpr(t_entry *entry, char *path, char *options)
 		ft_putchar('\n');
 		subpath = subdir_path(path, entry->filename);
 		list(subpath, options);
+		free(path);
 	}
 }
 
