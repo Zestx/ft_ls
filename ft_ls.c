@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 06:36:57 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/01/16 17:35:44 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/01/16 18:23:23 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,17 @@ int		list(char *dirpath, char *options)
 	printf("%s :\n", dirpath);
 	entries_list = NULL;
 	if ((dir = opendir(dirpath)) == NULL)
-		return (-1);
+		exit(EXIT_FAILURE);
 	read_create_list(&entries_list, dir, dirpath, options);
 	entry_ptr = entries_list;
-	while (entry_ptr->content != NULL)
+	while (entry_ptr)
 	{
 		display_wpr(entry_ptr->content, options);
 		if (options && strchr(options, 'R'))
 			recursive_wpr(entry_ptr->content, dirpath, options);
 		entry_ptr = entry_ptr->next;
 	}
+	printf("\n");
 	free_list(entries_list);
 	closedir(dir);
 	return (0);
@@ -120,11 +121,11 @@ int		main(int argc, char **argv)
 	if (argc > 1)
 	{
 		if (!(options = parse_args(argc, argv)))
-			return (-1);
+			exit(EXIT_FAILURE);
 		if (check_opts("Ralst", options))
-			return (-1);
+			exit(EXIT_FAILURE);
 	}
 	if (list(".", options))
-		return (-1);
+		exit(EXIT_FAILURE);
 	return (0);
 }
