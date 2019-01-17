@@ -38,7 +38,7 @@ char	*subdir_path(char *current_path, char *subdir)
 		full_path[i + j] = subdir[j];
 		j++;
 	}
-	full_path[i + j] = '\0';
+full_path[i + j] = '\0';
 	return (full_path);
 }
 

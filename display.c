@@ -23,6 +23,9 @@ void	display_wpr(t_entry *entry, char *options)
 //display entries, and their stats if -l is set. Time stats displaying yet to do.
 int		display_entry(char *fname, struct stat *fstats, int l_mode)
 {
+	char *ftype;
+
+	ftype = get_mode(fstats->st_mode);
 	if (l_mode == 1)
 	{
 		ft_putstr(get_mode(fstats->st_mode));
@@ -34,11 +37,20 @@ int		display_entry(char *fname, struct stat *fstats, int l_mode)
 		ft_putstr(get_grpname(fstats->st_gid));
 		ft_putstr(" ");
 		printf("%ld ", fstats->st_size);
-		printf("%s\n", fname);
+		if (ftype[0] == 'd')
+			printf("%s%s%s\n", CMAG, fname, RESET);
+		else
+			printf("%s\n", fname);
 	}
 	else if (l_mode == 0)
-		printf("%s\n", fname);
+	{
+		if (ftype[0] == 'd')
+			printf("%s%s%s\n", CMAG, fname, RESET);
+		else
+			printf("%s\n", fname);
+	}
 	else
 		return (-1);
+	free(ftype);
 	return (0);
 }
